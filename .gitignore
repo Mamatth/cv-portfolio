@@ -1,0 +1,8 @@
+.env
+
+www
+sql/*
+!sql/import
+sql/import/*
+!sql/import/.gitkeep
+node_modules/*
