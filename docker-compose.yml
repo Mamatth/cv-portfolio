@@ -58,7 +58,7 @@ services:
     volumes:
       - ./:/srv/
 
-  mail.ternum-gen.docker.localhost:
+  mail.docker.localhost:
     image: mailhog/mailhog
     ports:
       - "1025:1025"
