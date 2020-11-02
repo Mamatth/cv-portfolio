@@ -1,6 +1,6 @@
 .env
 
-www
+html
 sql/*
 !sql/import
 sql/import/*

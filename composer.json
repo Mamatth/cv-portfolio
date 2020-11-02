@@ -120,7 +120,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
-    "vendor-dir": "www/vendor"
+    "vendor-dir": "html/vendor"
   },
   "autoload": {
     "classmap": [
@@ -129,7 +129,7 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "fix-right-on-site": "chmod u+w -R www/sites/default || true",
+    "fix-right-on-site": "chmod u+w -R html/sites/default || true",
     "pre-install-cmd": [
       "MySiteProject\\composer\\ScriptHandler::checkComposerVersion",
       "@fix-right-on-site"
@@ -150,7 +150,7 @@
   "extra": {
     "merge-plugin": {
       "include": [
-        "www/modules/contrib/webform/composer.libraries.json"
+        "html/modules/contrib/webform/composer.libraries.json"
       ]
     },
     "composer-exit-on-patch-failure": true,
@@ -160,31 +160,31 @@
     "patches": {
     },
     "installer-paths": {
-      "www/core": [
+      "html/core": [
         "type:drupal-core"
       ],
-      "www/libraries/{$name}": [
+      "html/libraries/{$name}": [
         "type:drupal-library"
       ],
-      "www/modules/contrib/{$name}": [
+      "html/modules/contrib/{$name}": [
         "type:drupal-module"
       ],
-      "www/profiles/contrib/{$name}": [
+      "html/profiles/contrib/{$name}": [
         "type:drupal-profile"
       ],
-      "www/themes/contrib/{$name}": [
+      "html/themes/contrib/{$name}": [
         "type:drupal-theme"
       ],
-      "www/drush/Commands/{$name}": [
+      "html/drush/Commands/{$name}": [
         "type:drupal-drush"
       ],
-      "www/console/{$name}": [
+      "html/console/{$name}": [
         "type:drupal-console-language"
       ]
     },
     "drupal-scaffold": {
       "locations": {
-        "web-root": "www"
+        "web-root": "html"
       },
       "allowed-packages": [
         "drupal/core"

@@ -1,12 +1,11 @@
 ARG NODE_VERSION
-ARG UID=1000
-ARG GID=1000
 
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}
 
-ARG UID
-ARG GID
+RUN apk add --no-cache su-exec && \
+    addgroup bar && \
+    adduser -D -h /home -s /bin/sh -G bar foo
 
-RUN apk --no-cache add shadow && usermod --uid "$UID" node ; groupmod --gid "$GID" node
+ADD entrypoint.sh /entrypoint
 
-USER node
+ENTRYPOINT ["/entrypoint"]

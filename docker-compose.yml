@@ -10,55 +10,51 @@ services:
     ports:
       - '5432:5432'
 
-  php-drupal:
+  php:
     build:
-      context: ./docker/php
+      context: ./docker/php/
       args:
         - "VERSION=${PHP_VERSION}-${COMPOSER_VERSION}"
-        - "MAIL_HOST=mail"
       dockerfile: Dockerfile
     environment:
-      - ENVIRONMENT
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      PHP_XDEBUG: 1
+      PHP_XDEBUG_REMOTE_ENABLE: 1
+      PHP_XDEBUG_REMOTE_PORT: 9000
+      PHP_XDEBUG_REMOTE_CONNECT_BACK: 1
     env_file:
       - .env
     volumes:
       - ./:/var/www
       - ./:/srv
-      - ~/.composer:/home/.composer
+      - ~/.composer/:/home/.composer/
 
-  cv-portfolio.drupal.site-gen.docker.localhost:
-    build:
-      context: ./docker/apache
-      args:
-        - "VERSION=${APACHE_TAG}"
-        - "PHP_FPM_HOST=php-drupal"
-        - "APACHE_PORT=8080"
-        - "CONF_FILE=demo.apache.conf"
-      dockerfile: Dockerfile
+  apache:
+    image: wodby/apache:$APACHE_TAG
     depends_on:
-      - php-drupal
-    networks:
-      default:
-        aliases:
-            - cv-drupal.site-gen.docker.localhost
+      - php
+    environment:
+      APACHE_LOG_LEVEL: debug
+      APACHE_BACKEND: php
+      APACHE_VHOST_PRESET: php
+      APACHE_DOCUMENT_ROOT:   /var/www/html
     volumes:
       - ./:/var/www
     ports:
-      - '8080:8080'
+      - '8000:80'
 
-  node-drupal:
+  node:
     build:
       context: ./docker/node
       args:
         - NODE_VERSION=${NODE_VERSION}
-        - UID=${UID}
-        - GID=${GID}
     working_dir: /srv
-    entrypoint: "sleep 9999d"
+    env_file:
+      - .env
     volumes:
       - ./:/srv/
 
-  mail.docker.localhost:
+  mail.ternum-gen.docker.localhost:
     image: mailhog/mailhog
     ports:
       - "1025:1025"
